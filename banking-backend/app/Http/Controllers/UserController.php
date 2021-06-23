@@ -14,7 +14,7 @@ class UserController extends Controller
     
     function register(Request $req)
     {
-      $user = new USer;
+      $user = new User;
        $account= new Account;
     
     $data  = Validator::make($req->all(),
@@ -111,14 +111,11 @@ class UserController extends Controller
             }
             else
             {
+                //nie działa
                 return response()->json(['wiadomość'=>'Nie znaleziono użytkowników'],404);
             }
         }
-        public function addTransfer(){
-            $transfer = new Transfer();
-            $id = Auth::id();
-            //$account = Account::find($id);
-            //$transfer->accoutId = $account->id;
-            return response()->json($id,200);
-        }
+        
+       
+       
 }

@@ -13,14 +13,15 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->string('accountNumber',26);
-            $table->integer('balance');
-            $table->string('accountType',40);
-            $table->integer('userId');    
-            $table->timestamps();
-    });
+       Schema::create('accounts', function (Blueprint $table) 
+       {
+                $table->increments('id')->unsigned();
+                $table->string('accountNumber',26);
+                $table->integer('balance');
+                $table->string('accountType',40);
+                $table->integer('userId');    
+                $table->timestamps();
+        });
     }
 
     /**

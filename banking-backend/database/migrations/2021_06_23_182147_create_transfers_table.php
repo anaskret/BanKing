@@ -15,7 +15,8 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('accountNumber',26);
+            $table->string('myAccountNumber',26);
+            $table->string('yourAccountNumber',26);
             $table->string('tittle',100);
             $table->integer('amount');    
             $table->integer('accountsId');    

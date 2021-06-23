@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\TransferController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,8 +26,17 @@ Route::post('login',[UserController::class,'login']);
 
 Route::get('showUsers',[UserController::class,'showUsers']);
 
-Route::post('addTransfer',[UserController::class,'addTransfer']);
+
 
 Route::middleware('auth:sanctum')->group( function () {
+
     Route::post('logout',[UserController::class,'logout']);
+
+    Route::post('addTransfer',[TransferController::class,'addTransfer']);
+
+    Route::get('showTransfers',[TransferController::class,'showTransfers']);
+
+    Route::get('showAccount',[AccountController::class,'showAccount']);
+   
+    Route::put('editAccountPassword',[AccountController::class,'editAccountPassword']);
 });
