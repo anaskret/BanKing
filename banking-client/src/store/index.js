@@ -1,14 +1,44 @@
-import Vuex from 'vuex';
-import Vue from 'vue';
-import createPersistedState from "vuex-persistedstate";
-import auth from './modules/auth';
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { getField, updateField } from 'vuex-map-fields';
 
-// Load Vuex
-Vue.use(Vuex);
-// Create store
+Vue.use(Vuex)
+
 export default new Vuex.Store({
-  modules: {
-    auth
+  state: {
+    user:null,
   },
-  plugins: [createPersistedState()]
-});
+  getters:{
+    getField
+  },
+  mutations: {
+    updateField,
+    SET_USER(state,user){
+      state.user = user
+    },
+  },
+  actions: {
+
+    login({state,commit},data){
+      console.log(this)
+       localStorage.setItem("ireceptionAccount",JSON.stringify(data));
+
+      commit('SET_USER',data)
+    },
+    checkAuth({commit}){
+      const t = localStorage.getItem("ireceptionAccount");
+      if(t){
+        commit('SET_USER',JSON.parse(t))
+      }
+    },
+    register(){
+      
+    },
+    logOut({commit}){
+      localStorage.removeItem("ireceptionAccount");
+      commit('SET_USER',null)
+    }
+  },
+  modules: {
+  }
+})

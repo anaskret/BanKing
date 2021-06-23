@@ -1,141 +1,125 @@
 <template>
-  <v-card
-        class="mx-auto"
-        max-width="344"
-        elevation="2"
-        outlined
-    >
-        <v-card-title>Login</v-card-title>
-        <form>
-            <v-col
-                sm="12"
+  <div
+    class="w-100  d-flex justify-content-center align-items-center"
+    style="min-height:100vh"
+  >  
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <a
+            href="../../index2.html"
+            class="h1"
+          >
+            <b>BanKing</b></a>
+        </div>
+        <div class="card-body">
+          <p class="login-box-msg">
+            Sign in to our banking app
+          </p>
+
+          <form
+            method="post"
+            @submit.prevent="logIn"
+          >
+            <div class="input-group mb-3">
+              <input
+                v-model="form.email"
+                type="email"
+                class="form-control"
+                placeholder="Email"
+              >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <b-icon
+                    icon="envelope"
+                    style="color: #7952b3;"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <input
+                v-model="form.password"
+                type="password"
+                class="form-control"
+                placeholder="Password"
+              >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <b-icon
+                    icon="lock"
+                    style="color: #7952b3;"
+                  />
+                </div>
+              </div>
+            </div>
+            <p
+              v-if="error"
+              class="text-danger"
             >
-                <v-text-field
-                    v-model="name"
-                    :error-messages="nameErrors"
-                    :counter="50"
-                    label="Name"
-                    required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"
-                ></v-text-field>
-            </v-col>
-            <v-col
-                sm="12"
+              Bad login or password try again
+            </p>
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
             >
-                <v-text-field
-                    type="password"
-                    v-model="password"
-                    :error-messages="passwordErrors"
-                    :counter="50"
-                    label="Password"
-                    required
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                ></v-text-field>
-            </v-col>
-            <v-card-actions>
-                <v-btn
-                class="mr-4"
-                @click="submit"
-                >
-                submit
-                </v-btn>
-            </v-card-actions>
-        </form>
-    </v-card>
+              LOGIN
+            </button>
+          </form>
+
+          <div class="social-auth-links text-center mt-2 mb-3" />
+          <!-- /.social-auth-links -->
+
+        
+          <p class="mb-0">
+            <router-link
+              :to="{name:'Register'}"
+              class="text-center"
+            >
+              Register
+            </router-link>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
-
-<script>
-import { mapActions } from "vuex";
-import { validationMixin } from 'vuelidate'
-import { required, maxLength, email } from 'vuelidate/lib/validators'
-
-export default {
-    name: "Login",
-    components: {},
-    mixins: [validationMixin],
-
-    validations: {
-      name: { required, maxLength: maxLength(50) },
-      email: { required, email },
-      password: { required, maxLength: maxLength(50)}
-    },
-
-    data() {
-        return {
-            username: "",
-            password: "",
-            form: {
-                username: "",
-                password: "",
-        },
-        showError: false
-        };
-    },
-
-    computed:{
-      nameErrors () {
-        const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.maxLength && errors.push('Name must be at most 50 characters long')
-        !this.$v.name.required && errors.push('Name is required.')
-        return errors
-      },
-      passwordErrors () {
-        const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.maxLength && errors.push('Password must be at most 50 characters long')
-        !this.$v.password.required && errors.push('Password is required')
-        return errors
-      },
-    },
-
-    methods: {
-        ...mapActions(["LogIn"]),
-        async submit() {
-            this.form.username = this.username
-            this.form.password = this.password
-            const User = new FormData();
-            User.append("username", this.form.username);
-            User.append("password", this.form.password);
-            try {
-                await this.LogIn(User);
-                this.$router.push("/posts");
-                this.showError = false
-            } catch (error) {
-                this.showError = true
+  
+  <script>
+  export default {
+  name:'Login',
+  data(){
+        return{
+          error:false,
+            form:{
+                email:'',
+                password:'',
             }
-        },
+        }
     },
-};
-</script>
-
-<style scoped>
-* {
-  box-sizing: border-box;
-}
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-button[type=submit] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius:30px;
-}
-button[type=submit]:hover {
-  background-color: #45a049;
-}
-input {
-  margin: 5px;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-  padding:10px;
-  border-radius:30px;
-}
-#error {
-  color: red;
-}
-</style>
+    methods:{
+        logIn(){
+          this.error = false
+            const data = {
+                user:{
+                    email:"szobi@szobi.pl",
+                    id:"34234234"
+                }
+            }
+            /*this.axios.post('user/login',this.form).then(res=>{
+              console.log(res)
+              this.$store.dispatch('login',res.data)
+              this.$router.push({name:'Home'})
+            }).catch(err=>{console.log(err.response); this.error = true})
+            */
+           this.$store.dispatch('login', this.form.email)
+           this.$router.push({name:'Home'})
+        }
+    }
+  }
+  </script>
+  
+  <style>
+  
+  </style>

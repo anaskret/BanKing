@@ -1,159 +1,168 @@
 <template>
-    <v-card
-        class="mx-auto"
-        max-width="344"
-        elevation="2"
-        outlined
-    >
-        <v-card-title>Put in your data</v-card-title>
-        <form>
-            <v-col
-                sm="12"
+  <div
+    class="w-100  d-flex justify-content-center align-items-center"
+    style="min-height:100vh"
+  >  
+    <div class="login-box">
+      <!-- /.login-logo -->
+      <div class="card card-outline card-primary">
+        <div class="card-header text-center">
+          <a
+            href="../../index2.html"
+            class="h1"
+          >
+            <b>BanKing</b></a>
+        </div>
+        <div class="card-body">
+          <p class="login-box-msg">
+            Sign up to our bank
+          </p>
+  
+          <form
+            method="post"
+            @submit.prevent="register"
+          >
+            <div class="input-group mb-3">
+              <input
+                v-model="form.email"
+                type="email"
+                class="form-control"
+                placeholder="Email"
+              >
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <b-icon
+                    icon="envelope"
+                    style="color: #7952b3;"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.firstName"
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+              >
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.lastName"
+                type="text"
+                class="form-control"
+                placeholder="LastName"
+              >
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.personalIdNumber"
+                type="text"
+                class="form-control"
+                placeholder="Personal Id Number"
+              >
+            </div>
+
+            <div class="input-group mb-3">
+              <input
+                v-model="form.phone"
+                type="text"
+                class="form-control"
+                placeholder="Phone"
+              >
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.address"
+                type="text"
+                class="form-control"
+                placeholder="Address"
+              >
+            </div>
+            
+            <La>Date Of Birth</La>
+            <div class="input-group mb-3">
+              <input
+                v-model="form.dateOfBirth"
+                type="date"
+                class="form-control"
+              >
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.login"
+                type="text"
+                class="form-control"
+                placeholder="Login"
+              >
+            </div>
+            
+            <div class="input-group mb-3">
+              <input
+                v-model="form.password"
+                type="password"
+                class="form-control"
+                placeholder="Password"
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary btn-block"
             >
-                <v-text-field
-                    v-model="name"
-                    :error-messages="nameErrors"
-                    :counter="50"
-                    label="Name"
-                    required
-                    @input="$v.name.$touch()"
-                    @blur="$v.name.$touch()"
-                ></v-text-field>
-            </v-col>
-            <v-col
-                sm="12"
+              Register
+            </button>
+          </form>
+
+          <p class="mb-0">
+            <router-link
+              :to="{name:'Login'}"
+              class="text-center"
             >
-                <v-text-field
-                    v-model="email"
-                    :error-messages="emailErrors"
-                    label="E-mail"
-                    required
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                ></v-text-field>
-            </v-col>
-            <v-col
-                sm="12"
-            >
-                <v-text-field
-                    type="password"
-                    v-model="password"
-                    :error-messages="passwordErrors"
-                    :counter="50"
-                    label="Password"
-                    required
-                    @input="$v.password.$touch()"
-                    @blur="$v.password.$touch()"
-                ></v-text-field>
-            </v-col>
-            <v-card-actions>
-                <v-btn
-                class="mr-4"
-                @click="submit"
-                >
-                submit
-                </v-btn>
-            </v-card-actions>
-        </form>
-    </v-card>
+              Already registered? Sign in
+            </router-link>
+          </p>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
 </template>
-
-<script>
-import { mapActions } from "vuex";
-import { validationMixin } from 'vuelidate'
-import { required, maxLength, email } from 'vuelidate/lib/validators'
-
-
-export default {
-    name: "Register",
-    mixins: [validationMixin],
-    components: {},
-
-    validations: {
-      name: { required, maxLength: maxLength(50) },
-      email: { required, email },
-      password: { required, maxLength: maxLength(50)}
-    },
-
-  data() {
-    return {
-        name: "",
-        email: "",
-        password: "",
-        form: {
-            name: "",
-            email: "",
-            password: "",
-        },
-      showError: false
-    };
-  },
-  computed:{
-      nameErrors () {
-        const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.maxLength && errors.push('Name must be at most 50 characters long')
-        !this.$v.name.required && errors.push('Name is required.')
-        return errors
+    
+  <script>
+    export default {
+      name:'Register',
+      data(){
+          return{
+              form:{
+                  email:'',
+                  firstName:'',
+                  lastName:'',
+                  personalIdNumber:'',
+                  phone:'',
+                  address:'',
+                  dateOfBirth:'',
+                  login:'',
+                  password:'',
+              }
+          }
       },
-      emailErrors () {
-        const errors = []
-        if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
-        return errors
-      },
-      passwordErrors () {
-        const errors = []
-        if (!this.$v.password.$dirty) return errors
-        !this.$v.password.maxLength && errors.push('Password must be at most 50 characters long')
-        !this.$v.password.required && errors.push('Password is required')
-        return errors
-      },
-  },
-  methods: {
-    ...mapActions(["Register"]),
-    async submit() {
-      try {
-            this.form.name = this.name
-            this.form.email = this.email
-            this.fomr.password = this.password
-            await this.Register(this.form);
-            this.$router.push("/posts");
-            this.showError = false
-      } catch (error) {
-            this.showError = true
+      methods:{
+        register(){
+          this.axios.post('user/register',this.form).then(res=>{
+            this.$router.push({name:'Home'})
+          })
+        }
       }
-    },
-  },
-};
-</script>
-
-<style scoped>
-* {
-  box-sizing: border-box;
-}
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-button[type=submit] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius:30px;
-}
-button[type=submit]:hover {
-  background-color: #45a049;
-}
-input {
-  margin: 5px;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
-  padding:10px;
-  border-radius:30px;
-}
-#error {
-  color: red;
-}
-</style>
+    }
+  </script>
+    
+    <style>
+    
+    </style>

@@ -1,27 +1,43 @@
 <template>
-  <v-app>
-    <div id="app">
-      <NavBar />
-      <router-view/>
-    </div>
-  </v-app>
+  <div id="app">
+    <template v-if="isLogged">
+      <navbar />
+      <Aside />
+      <div class="wrapper">
+        <router-view />
+        <footer class="main-footer">
+          banking app 
+        </footer>
+      </div>
+    </template>
+    <template v-else>
+      <Menu />
+      <router-view />
+    </template>
+  </div>
 </template>
-
 <script>
-import NavBar from '@/components/NavBar.vue'
-export default {
-  components: {
-    NavBar
+import Aside from './components/layout/aside.vue'
+import navbar from './components/layout/navbar.vue'
+import Menu from './components/layout/Menu.vue'
+
+export default{
+  name:'App',
+  components: { navbar,Aside,Menu },
+  data(
+    ){
+    return{
+      currentRoute:'null'
+    }
+  },
+  computed:{
+    user(){
+      return this.$store.state.user
+    },
+    isLogged(){
+      return this.user !== null
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
