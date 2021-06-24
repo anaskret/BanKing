@@ -16,7 +16,7 @@ class CreateAccountsTable extends Migration
        Schema::create('accounts', function (Blueprint $table) 
        {
                 $table->increments('id')->unsigned();
-                $table->string('accountNumber',26);
+                $table->string('accountNumber',32);
                 $table->integer('balance');
                 $table->string('accountType',40);
                 $table->integer('userId');    

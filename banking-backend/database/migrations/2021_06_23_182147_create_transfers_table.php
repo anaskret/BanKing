@@ -15,14 +15,16 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->string('myAccountNumber',26);
-            $table->string('yourAccountNumber',26);
+            $table->string('myAccountNumber',32);
+            $table->string('yourAccountNumber',32);
             $table->string('nameOfBank',100);
             $table->string('myName',40);
             $table->string('recipientName',40);
             $table->string('address',100);
             $table->string('tittle',100);
-            $table->integer('amount');    
+            $table->integer('amount'); 
+            $table->date('date');  
+            $table->boolean('isComplete'); 
             $table->integer('accountId');    
             $table->timestamps();  
         });

@@ -21,6 +21,8 @@ class Transfer extends Model
         'myName',
         'recipientName',
         'address',
+        'date',
+        'isComplete',
 
     ];
 
