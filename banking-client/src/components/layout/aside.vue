@@ -4,7 +4,7 @@
     <div class="logo w-50 m-auto">
       <img
         class="img-fluid"
-        src="https://cdn4.iconfinder.com/data/icons/travel-guide/32/icon3_Hotel-512.png"
+        src="https://cdn4.iconfinder.com/data/icons/office-and-business-conceptual-flat/169/20-128.png"
         alt=""
       >
     </div>
@@ -27,7 +27,7 @@
           </li>
           <li class="nav-item ">
             <a
-              href="#"
+              href="#/transfer"
               class="nav-link"
             >
               Transfer
@@ -35,7 +35,7 @@
           </li>
           <li class="nav-item ">
             <a
-              href="#"
+              href="#/history"
               class="nav-link"
             >
               History

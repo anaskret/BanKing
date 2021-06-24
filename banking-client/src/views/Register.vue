@@ -41,7 +41,7 @@
             
             <div class="input-group mb-3">
               <input
-                v-model="form.firstName"
+                v-model="form.name"
                 type="text"
                 class="form-control"
                 placeholder="First Name"
@@ -50,10 +50,10 @@
             
             <div class="input-group mb-3">
               <input
-                v-model="form.lastName"
+                v-model="form.surname"
                 type="text"
                 class="form-control"
-                placeholder="LastName"
+                placeholder="Last Name"
               >
             </div>
             
@@ -68,7 +68,7 @@
 
             <div class="input-group mb-3">
               <input
-                v-model="form.phone"
+                v-model="form.phoneNumber"
                 type="text"
                 class="form-control"
                 placeholder="Phone"
@@ -84,7 +84,7 @@
               >
             </div>
             
-            <La>Date Of Birth</La>
+            <a>Date Of Birth</a>
             <div class="input-group mb-3">
               <input
                 v-model="form.dateOfBirth"
@@ -142,10 +142,10 @@
           return{
               form:{
                   email:'',
-                  firstName:'',
-                  lastName:'',
+                  name:'',
+                  surname:'',
                   personalIdNumber:'',
-                  phone:'',
+                  phoneNumber:'',
                   address:'',
                   dateOfBirth:'',
                   login:'',
@@ -155,9 +155,12 @@
       },
       methods:{
         register(){
-          this.axios.post('user/register',this.form).then(res=>{
+
+          this.axios.post('register',this.form).then(res=>{
             this.$router.push({name:'Home'})
-          })
+          }).catch(err=>{
+            console.log(err)
+          })  
         }
       }
     }

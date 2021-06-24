@@ -37,6 +37,10 @@ class TransferController extends Controller
             }
             $code=substr($req['yourAccountNumber'],2,-20);
             $nameBank = Bank::where('code','like','%'.$code.'%')->first();
+
+            if(empty($nameBank))
+             return response()->json(['message'=>'Niepoprawny numer banku'],404);
+
             $req = Transfer::create([
                 'myAccountNumber' => $account->accountNumber,
                 'yourAccountNumber' => $req['yourAccountNumber'],

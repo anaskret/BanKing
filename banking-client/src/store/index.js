@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user:null,
+    token:''
   },
   getters:{
     getField
@@ -21,12 +22,12 @@ export default new Vuex.Store({
 
     login({state,commit},data){
       console.log(this)
-       localStorage.setItem("ireceptionAccount",JSON.stringify(data));
+       localStorage.setItem("bankingAccount",JSON.stringify(data));
 
       commit('SET_USER',data)
     },
     checkAuth({commit}){
-      const t = localStorage.getItem("ireceptionAccount");
+      const t = localStorage.getItem("bankingAccount");
       if(t){
         commit('SET_USER',JSON.parse(t))
       }
@@ -35,7 +36,7 @@ export default new Vuex.Store({
       
     },
     logOut({commit}){
-      localStorage.removeItem("ireceptionAccount");
+      localStorage.removeItem("bankingAccount");
       commit('SET_USER',null)
     }
   },

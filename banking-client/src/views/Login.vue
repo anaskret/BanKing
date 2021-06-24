@@ -24,19 +24,11 @@
           >
             <div class="input-group mb-3">
               <input
-                v-model="form.email"
-                type="email"
+                v-model="form.login"
+                type="text"
                 class="form-control"
-                placeholder="Email"
+                placeholder="Login"
               >
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <b-icon
-                    icon="envelope"
-                    style="color: #7952b3;"
-                  />
-                </div>
-              </div>
             </div>
             <div class="input-group mb-3">
               <input
@@ -93,7 +85,7 @@
         return{
           error:false,
             form:{
-                email:'',
+                login:'',
                 password:'',
             }
         }
@@ -101,20 +93,13 @@
     methods:{
         logIn(){
           this.error = false
-            const data = {
-                user:{
-                    email:"szobi@szobi.pl",
-                    id:"34234234"
-                }
-            }
-            /*this.axios.post('user/login',this.form).then(res=>{
-              console.log(res)
-              this.$store.dispatch('login',res.data)
-              this.$router.push({name:'Home'})
-            }).catch(err=>{console.log(err.response); this.error = true})
-            */
-           this.$store.dispatch('login', this.form.email)
-           this.$router.push({name:'Home'})
+            this.axios.post('login',this.form).then(res=>{
+              this.$store.dispatch('login', this.form.login)
+              this.$store.state.token = res.data.token
+              this.$router.push({name:'Dashboard'})
+            }).catch(err=>{console.log(err.response); console.log(err); this.error = true})
+            
+           
         }
     }
   }

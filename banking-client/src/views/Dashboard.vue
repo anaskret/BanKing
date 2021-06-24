@@ -12,24 +12,35 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-sm">
-            <b>Konto jakie chcesz</b>
+          <div class="col col-sm-6">
+            {{accountNumber}}
           </div>
-          <div class="col-sm">
-            <b>5,100</b>
+          <div class="col col-sm-3">
+            {{balance}}
           </div>
-          <button class="btn btn-outline-primary col-sm">
-            Przelew
+          <button 
+            @click="$router.push('/transfer')"
+            class="btn btn-outline-danger col col-sm-3"
+          >
+            Transfer
           </button>
         </div>
         <div class="row">
-          <div class="col-sm">
-            17 32 1283 012308912
+          <div class="col col-sm-6">
+            <b>{{accountName}}</b>
           </div>
-          <div class="col-sm">
-            Środki
+          <div class="col col-sm-3">
+            <b>Balance</b>
           </div>
-          <div class="col-sm">
+          <div class="col col-sm-3 text-center">
+            <p class="mb-0">
+              <router-link
+                :to="{name:'History'}"
+                class="text-center"
+              >
+                History
+              </router-link>
+            </p>
           </div>
         </div>
       </div>
@@ -44,6 +55,24 @@
 
 export default {
   name: "Dashboard",
-
+  data(){
+    return{
+      accountName: 'Konto jakie chcesz',
+      accountNumber: '17 32 1283 012308912',
+      balance: '5,100'
+    }
+  },
+  created(){
+      if(this.$store.state.user == null){
+          this.$router.push("/home")
+      }
+  },
+  mounted() {
+    this.axios.get('showAccount', { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
+      this.accountName = res.data.account[0].accountType
+      this.accountNumber = res.data.account[0].accountNumber
+      this.balance = res.data.account[0].balance
+    })
+  }
 };
 </script>

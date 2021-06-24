@@ -13,11 +13,11 @@
   
           <form
             method="post"
-            @submit.prevent="register"
+            @submit.prevent="passwordChange"
           >
             <div class="input-group mb-3">
               <input
-                v-model="form.oldPassword"
+                v-model="form.old_password"
                 type="password"
                 class="form-control"
                 placeholder="Old Password"
@@ -26,7 +26,7 @@
             
             <div class="input-group mb-3">
               <input
-                v-model="form.newPassword"
+                v-model="form.new_password"
                 type="password"
                 class="form-control"
                 placeholder="New Password"
@@ -35,12 +35,25 @@
             
             <div class="input-group mb-3">
               <input
-                v-model="form.confirmPassword"
+                v-model="form.confirm_password"
                 type="password"
                 class="form-control"
                 placeholder="Confirm Password"
               >
             </div>
+
+            <p
+              v-if="error"
+              class="text-danger"
+            >
+              Update failed
+            </p>
+            <p
+              v-if="success"
+              class="text-green"
+            >
+              Update successful
+            </p>
 
             <button
               type="submit"
@@ -62,18 +75,26 @@
     name: "Settings",
     data(){
           return{
+            error: false,
+            success: false,
               form:{
-                  oldPassword:'',
-                  newPassword:'',
-                  confirmPassword:''
+                  old_password:'',
+                  new_password:'',
+                  confirm_password:''
               }
           }
       },
+      created(){
+          if(this.$store.state.user == null){
+              this.$router.push("/home")
+          }
+      },
       methods:{
-        register(){
-          this.axios.post('user/password',this.form).then(res=>{
-            this.$router.push({name:'Home'})
-          })
+        passwordChange(){
+          this.axios.put('updatePassword',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
+            this.success = true;
+            this.error = false
+          }).catch(err => {this.error = true; this.success = false;})
         }
       }
   };

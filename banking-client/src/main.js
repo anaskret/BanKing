@@ -13,7 +13,7 @@ import './assets/css/adminlte.min.css';
 // Make BootstrapVue available throughout your project
 
 export const HTTP = axios.create({
-  baseURL: `https://localhost:5001/api/`,
+  baseURL: `http://127.0.0.1:8000/api/`,
   headers: {
    
   }
