@@ -28,7 +28,7 @@ class UserController extends Controller
             'address' => 'required | min:2 | max:60',
             'dateOfBirth' => 'required',
             'login' => 'required | unique:users,login',
-            'password' => 'required|string'
+            'password' => 'required| min:8 | max:100 | string'
         ],
         [
             'name.required' => 'Pole Imię jest wymagane',

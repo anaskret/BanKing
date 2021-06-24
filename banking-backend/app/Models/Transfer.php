@@ -16,8 +16,11 @@ class Transfer extends Model
         'myAccountNumber',
         'tittle',
         'amount',
-        'accountsId',
+        'accountId',
+        'myName',
+        'recipientName',
+        'address',
 
     ];
-   
+
 }

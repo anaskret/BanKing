@@ -18,8 +18,9 @@ class TransferController extends Controller
          {
             $transfer = new Transfer();
             $id = Auth::id();
-            $account = Account::find($id);
-            $transfer->accoutId = $account->id;
+            $user = Auth::user();
+            $account = Account::where('userId','like','%'.$id.'%')->first(); 
+            $transfer->accountsId = $account->id;
             
             $data  = Validator::make($req->all(),
         
@@ -27,17 +28,21 @@ class TransferController extends Controller
                 'tittle' => 'required | min:2 | max:100 | string',
                 'amount' => 'required | int',
                 'yourAccountNumber' => 'required | min:26| max:26',
-            
+                'recipientName' => 'required | min:2 | max:40 | string',
+                'address' => 'required | min:2 | max:100 | string',
             ]);
             if($data->fails()){
                 return response()->json($data->errors(),400);
             }
             $req = Transfer::create([
-                'tittle' => $req['tittle'],
-                'amount' => $req['amount'],
+                'myAccountNumber' => $account->accountNumber,
                 'yourAccountNumber' => $req['yourAccountNumber'],
-                'myAccountNumber' =>$account->accountNumber,
-                'accountsId'=>$account->id,
+                'myName' => $user->name,
+                'recipientName' => $req['recipientName'],
+                'tittle' => $req['tittle'],
+                'address' => $req['address'],
+                'amount' => $req['amount'],              
+                'accountId' => $account->id,                               
               ]);
               $sum = $account->balance;
               $sum=$sum-$req['amount'];
@@ -54,10 +59,9 @@ class TransferController extends Controller
     }
     public function showTransfers()
     {
-            $user = Auth::user();
-            $account = Account::find($user->id);  
-            $id=$account->id;
-            $transfer = Transfer::where('accountsId','like','%'.$id.'%')->get();
+             $id = Auth::id();
+             $account = Account::where('userId','like','%'.$id.'%')->first(); 
+            $transfer = Transfer::where('accountId','like','%'.$account->id.'%')->get();
                                     
             if($transfer)
             {

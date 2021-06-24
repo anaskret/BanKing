@@ -17,9 +17,12 @@ class CreateTransfersTable extends Migration
             $table->increments('id')->unsigned();
             $table->string('myAccountNumber',26);
             $table->string('yourAccountNumber',26);
+            $table->string('myName',40);
+            $table->string('recipientName',40);
+            $table->string('address',100);
             $table->string('tittle',100);
             $table->integer('amount');    
-            $table->integer('accountsId');    
+            $table->integer('accountId');    
             $table->timestamps();  
         });
 

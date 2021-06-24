@@ -38,5 +38,5 @@ Route::middleware('auth:sanctum')->group( function () {
 
     Route::get('showAccount',[AccountController::class,'showAccount']);
    
-    Route::put('editAccountPassword',[AccountController::class,'editAccountPassword']);
+    Route::put('updatePassword',[AccountController::class,'updatePassword']);
 });

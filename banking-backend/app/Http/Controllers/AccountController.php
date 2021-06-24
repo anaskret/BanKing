@@ -14,22 +14,43 @@ class AccountController extends Controller
     public function showAccount()
     {
             $id = Auth::id();
-            $account = Account::find($id);  
+            $account = Account::where('userId','like','%'.$id.'%')->get(); 
                                     
             if($account)
             {
-                return response()->json(['transfers'=>$account],200);
+                return response()->json(['account'=>$account],200);
             }
             else
             {
-                return response()->json(['message'=>'No Transfer Found'],404);
+                return response()->json(['message'=>'No Account Found'],404);
             }
         
     }
-    public function editAccountPassword()
+    public function updatePassword(Request $req)
     {
-        $user = Auth::user();
-       $user->password="new";
-       $user->update();
+        $data  = Validator::make($req->all(),
+        [
+            'old_password'=>'required| min:8 | max:100 | string',
+            'new_password'=>'required| min:8 | max:100 | string',
+            'confirm_password'=>'required| same:new_password',
+        ]);
+
+        if($data->fails()){
+            return response()->json($data->errors(),400);
+        }
+        $current_user=auth()->user();
+        if(Hash::check($req->old_password,$current_user->password))
+        {
+            $current_user->update([
+                'password' =>  Hash::make($req['new_password'])
+            ]);
+            return response()->json(['message'=>'Password successfully update'],200);
+        }
+        else
+        {
+            return response()->json(['message'=>'Old password does not matched'],404);
+        }
+
+
     }
 }
