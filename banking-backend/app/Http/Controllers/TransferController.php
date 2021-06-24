@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Bank;
 use App\Models\Account;
 use App\Models\Transfer;
 use Validator;
@@ -34,9 +35,12 @@ class TransferController extends Controller
             if($data->fails()){
                 return response()->json($data->errors(),400);
             }
+            $code=substr($req['yourAccountNumber'],2,-20);
+            $nameBank = Bank::where('code','like','%'.$code.'%')->first();
             $req = Transfer::create([
                 'myAccountNumber' => $account->accountNumber,
                 'yourAccountNumber' => $req['yourAccountNumber'],
+                'nameOfBank'=>$nameBank->name,
                 'myName' => $user->name,
                 'recipientName' => $req['recipientName'],
                 'tittle' => $req['tittle'],

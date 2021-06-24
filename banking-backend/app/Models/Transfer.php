@@ -14,6 +14,7 @@ class Transfer extends Model
     protected $fillable = [
         'yourAccountNumber',
         'myAccountNumber',
+        'nameOfBank',
         'tittle',
         'amount',
         'accountId',
