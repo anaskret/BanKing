@@ -59,7 +59,7 @@ class TransferController extends Controller
            
            
             $today = new DateTime(date("Y-m-d"));
-            $date = new DateTime($req['date']);
+            $date = new DateTime($req['transferDate']);
 
             if($today>=$date )
             {
