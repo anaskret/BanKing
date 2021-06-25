@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +9,7 @@ class Transfer extends Model
 {
     use HasFactory;
     protected $table = 'transfers';
-  
+   
      
     protected $fillable = [
         'yourAccountNumber',
@@ -25,7 +25,6 @@ class Transfer extends Model
         'isComplete',
 
     ];
-<<<<<<< HEAD
     // SPRAWDZANIE CZY PRZELEW JUZ DOTARŁ
     public function checkTransfer($transfers)
     {
@@ -46,7 +45,5 @@ class Transfer extends Model
             $transfer->update();
         }
     }
-=======
->>>>>>> parent of 0e814539 (checkDateTransfer)
 
 }

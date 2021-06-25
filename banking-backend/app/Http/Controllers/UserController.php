@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
+use DateTime;
 use App\Models\Account;
 use App\Models\Transfer;
 use Illuminate\Support\Facades\Hash;
@@ -96,6 +97,16 @@ class UserController extends Controller
             else
             {
                      $token = $user->createToken('fundaProjectTokenLogin')->plainTextToken;
+
+                        $transfers = new Transfer;
+                        $id = $user->id;
+                        $account = Account::where('userId','like','%'.$id.'%')->first(); 
+                        $transfer = Transfer::where('accountId','like','%'.$account->id.'%')
+                        ->Where('isComplete','like','0')
+                        ->get();
+                        $transfers->checkTransfer($transfer);
+
+
                      $response = 
                     [
                     'user'=>$user,
