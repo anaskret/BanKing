@@ -24,6 +24,7 @@
           >
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.email"
                 type="email"
                 class="form-control"
@@ -41,6 +42,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.name"
                 type="text"
                 class="form-control"
@@ -50,6 +52,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.surname"
                 type="text"
                 class="form-control"
@@ -59,6 +62,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.personalIdNumber"
                 type="text"
                 class="form-control"
@@ -68,6 +72,7 @@
 
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.phoneNumber"
                 type="text"
                 class="form-control"
@@ -77,6 +82,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.address"
                 type="text"
                 class="form-control"
@@ -87,6 +93,7 @@
             <a>Date Of Birth</a>
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.dateOfBirth"
                 type="date"
                 class="form-control"
@@ -95,6 +102,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.login"
                 type="text"
                 class="form-control"
@@ -104,6 +112,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.password"
                 type="password"
                 class="form-control"
@@ -159,7 +168,7 @@
           this.axios.post('register',this.form).then(res=>{
             this.$router.push({name:'Home'})
           }).catch(err=>{
-            console.log(err)
+            console.log(err.response.data)
           })  
         }
       }
