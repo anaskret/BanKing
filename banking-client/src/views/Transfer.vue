@@ -70,6 +70,7 @@
                     v-model="form.transferDate"
                     type="date"
                     class="col-sm"
+                    format="yyyy-MM-dd"
                     :disabledDates="disabledDates"
                 />
             </div>
