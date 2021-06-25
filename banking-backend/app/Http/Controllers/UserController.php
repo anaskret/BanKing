@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
+use DateTime;
 use App\Models\Account;
 use App\Models\Transfer;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,8 @@ class UserController extends Controller
         ]
 
             );
-        if($data->fails()){
+        if($data->fails())
+        {
             return response()->json($data->errors(),400);
         }
           
@@ -57,30 +59,37 @@ class UserController extends Controller
           
               $token = $req->createToken('fundaProjectToken')->plainTextToken;
         
-         $account->accountNumber='12345678912345678911111111';
+         $account-> accountNumber = $account->generateNumber(5);        
          $account->balance='0';
          $account->accountType="standard";
          $account->userId=$req->id;
-        $account->save();
+         $account->save();
 
         $response = [
             'user'=>$req,
             'token'=>$token,
         ];
+
          return response()->json($response,201);
+
         }
+
+
         function login(Request $req)
         {
-            $data  = Validator::make($req->all(),
-    
+            $data  = Validator::make($req->all(),    
         [
             'login' => 'required',
             'password' => 'required|string'
         ]);
-        if($data->fails()){
+
+        if($data->fails())
+        {
             return response()->json($data->errors(),400);
         }
+
             $user = User::where('login', $req->login)->first();
+
             if(!$user || !Hash::check($req->password,$user->password))
             {
                 return response(['wiadomość'=>'Niepoprawny login lub hasło']);
@@ -88,6 +97,16 @@ class UserController extends Controller
             else
             {
                      $token = $user->createToken('fundaProjectTokenLogin')->plainTextToken;
+
+                        $transfers = new Transfer;
+                        $id = $user->id;
+                        $account = Account::where('userId','like','%'.$id.'%')->first(); 
+                        $transfer = Transfer::where('accountId','like','%'.$account->id.'%')
+                        ->Where('isComplete','like','0')
+                        ->get();
+                        $transfers->checkTransfer($transfer);
+
+
                      $response = 
                     [
                     'user'=>$user,
@@ -115,6 +134,8 @@ class UserController extends Controller
                 return response()->json(['wiadomość'=>'Nie znaleziono użytkowników'],404);
             }
         }
+  
+  
         
        
        
