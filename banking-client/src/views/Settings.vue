@@ -17,7 +17,6 @@
           >
             <div class="input-group mb-3">
               <input
-                required
                 v-model="form.old_password"
                 type="password"
                 class="form-control"
@@ -27,7 +26,6 @@
             
             <div class="input-group mb-3">
               <input
-                required
                 v-model="form.new_password"
                 type="password"
                 class="form-control"
@@ -37,7 +35,6 @@
             
             <div class="input-group mb-3">
               <input
-                required
                 v-model="form.confirm_password"
                 type="password"
                 class="form-control"
