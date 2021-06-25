@@ -23,7 +23,7 @@ class CreateTransfersTable extends Migration
             $table->string('address',100);
             $table->string('tittle',100);
             $table->integer('amount'); 
-            $table->date('date');  
+            $table->date('transferDate');  
             $table->boolean('isComplete'); 
             $table->integer('accountId');    
             $table->timestamps();  
