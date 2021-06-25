@@ -21,7 +21,7 @@ class Transfer extends Model
         'myName',
         'recipientName',
         'address',
-        'date',
+        'transferDate',
         'isComplete',
 
     ];
@@ -32,7 +32,7 @@ class Transfer extends Model
         {
 
             $today = new DateTime(date("Y-m-d"));
-            $date2 = new DateTime($transfer->date);
+            $date2 = new DateTime($transfer->transferDate);
 
             if($today >= $date2)
             {

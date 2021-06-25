@@ -34,7 +34,7 @@ class TransferController extends Controller
                 'yourAccountNumber' => 'required | min:26| max:26',
                 'recipientName' => 'required | min:2 | max:40 | string',
                 'address' => 'required | min:2 | max:100 | string',
-                'date'=> 'required',
+                'transferDate'=> 'required',
             ]);
             if($data->fails()){
                 return response()->json($data->errors(),400);
@@ -80,7 +80,7 @@ class TransferController extends Controller
                 'address' => $req['address'],
                 'amount' => $req['amount'],              
                 'accountId' => $account->id, 
-                'date' =>  $req['date'],  
+                'transferDate' =>  $req['transferDate'],  
                 'isComplete' => $complete,                      
               ]);
 
