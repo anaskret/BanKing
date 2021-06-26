@@ -52,14 +52,18 @@ class TransferController extends Controller
 //          JESLI KONTO ZNAJDUJE SIE W NASZYM BANKU TO BILANS KONTA SIE ZWIEKSZA
 
              $findAccount =  Account::where('accountNumber','like','%'.$req['yourAccountNumber'].'%')->first(); 
-             $findAccount->balance=$findAccount->balance+$req['amount'];
-             $findAccount->update();
+             if(!empty($findAccount))
+             {
+                $findAccount->balance = $findAccount->balance + $req['amount'];
+                $findAccount->update();
+             }
+             
 
 //          DODAWANIE DO TABELI NOWEGO TRANSFERU
            
            
             $today = new DateTime(date("Y-m-d"));
-            $date = new DateTime($req['date']);
+            $date = new DateTime($req['transferDate']);
 
             if($today>=$date )
             {

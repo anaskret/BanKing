@@ -92,7 +92,7 @@ class UserController extends Controller
 
             if(!$user || !Hash::check($req->password,$user->password))
             {
-                return response(['wiadomość'=>'Niepoprawny login lub hasło']);
+                return response(['wiadomość'=>'Niepoprawny login lub hasło'],404);
             }
             else
             {
