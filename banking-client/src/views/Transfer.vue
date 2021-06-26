@@ -16,6 +16,7 @@
           >
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.yourAccountNumber"
                 type="text"
                 class="form-control"
@@ -25,6 +26,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.recipientName"
                 type="text"
                 class="form-control"
@@ -34,6 +36,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.address"
                 type="text"
                 class="form-control"
@@ -43,6 +46,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.tittle"
                 type="text"
                 class="form-control"
@@ -52,6 +56,7 @@
             
             <div class="input-group mb-3">
               <input
+                required
                 v-model="form.amount"
                 type="number"
                 class="form-control"
