@@ -74,19 +74,7 @@ class TransferController extends Controller
                 $complete=false;
             }
             
-            $req = Transfer::create([
-                'myAccountNumber' => $account->accountNumber,
-                'yourAccountNumber' => $req['yourAccountNumber'],
-                'nameOfBank'=>$nameBank->name,
-                'myName' => $user->name,
-                'recipientName' => $req['recipientName'],
-                'tittle' => $req['tittle'],
-                'address' => $req['address'],
-                'amount' => $req['amount'],              
-                'accountId' => $account->id, 
-                'transferDate' =>  $req['transferDate'],  
-                'isComplete' => $complete,                      
-              ]);
+           
 
 //          BILANS KONTA SIE ZWIEKSZA
 
@@ -98,14 +86,28 @@ class TransferController extends Controller
               }
               else
               {
+                $req = Transfer::create([
+                    'myAccountNumber' => $account->accountNumber,
+                    'yourAccountNumber' => $req['yourAccountNumber'],
+                    'nameOfBank'=>$nameBank->name,
+                    'myName' => $user->name,
+                    'recipientName' => $req['recipientName'],
+                    'tittle' => $req['tittle'],
+                    'address' => $req['address'],
+                    'amount' => $req['amount'],              
+                    'accountId' => $account->id, 
+                    'transferDate' =>  $req['transferDate'],  
+                    'isComplete' => $complete,                      
+                  ]);
                 $account->balance=$sum;
                 $account->update();
+                $response = [
+                    'transfer'=>$req,  
+                ];
+                 return response()->json($response,200);
               }
               
-              $response = [
-                'transfer'=>$req,  
-            ];
-             return response()->json($response,200);
+              
         }
         
          
