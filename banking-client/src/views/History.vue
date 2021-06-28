@@ -27,7 +27,7 @@ export default {
   data(){
     return{
       items: [
-          { created_at: '', nameOfBank: '', recipientName: '', tittle: '', amount: ''}
+          { created_at: '', transferDate: '', nameOfBank: '', recipientName: '', tittle: '', amount: ''}
         ]
     }
   },

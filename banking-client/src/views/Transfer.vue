@@ -135,7 +135,12 @@ import Datepicker from 'vuejs-datepicker';
       methods:{
         sendTransfer(){
           this.errorMessage = ''
-          
+          this.error = false; 
+          this.success = false;
+
+          if(this.form.transferDate < Date.now())
+            this.form.transferDate = Date.now()
+
           let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(this.form.transferDate)
           let month = new Intl.DateTimeFormat('en', {month: 'numeric'}).format(this.form.transferDate)
           let day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(this.form.transferDate)
