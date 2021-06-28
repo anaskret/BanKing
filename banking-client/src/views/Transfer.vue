@@ -149,6 +149,8 @@ import Datepicker from 'vuejs-datepicker';
           this.axios.post('addTransfer',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{ //wysyła requesta do api
             this.success = true //jeśli api zwróci sukces wyświetla wiadomość success
             this.error = false
+            this.form.transferDate = ''
+            
           }).catch(err => { //jesli api zwróci błąd wyświetla wiadomość niepowodzenia
             if(err.response.data.tittle != null){ //obsługa błędu
               this.errorMessage = err.response.data.tittle[0]
