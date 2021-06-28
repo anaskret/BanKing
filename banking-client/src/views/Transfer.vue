@@ -68,9 +68,11 @@
                 <label class="col-sm">Transfer date:</label>
                 <Datepicker
                     v-model="form.transferDate"
+                    :full-month-name="false"
                     type="date"
                     class="col-sm"
                     format="yyyy-MM-dd"
+                    value="yyyy-MM-dd"
                     :disabledDates="disabledDates"
                 />
             </div>
@@ -120,22 +122,27 @@ import Datepicker from 'vuejs-datepicker';
                 address:'',
                 transferDate: ''
             },
-            disabledDates: {
+            disabledDates: { //wyłącza daty w datepickerze z użytku
               to: new Date(Date.now()- 8640000)
             }
           }
       },
-      created(){
+      created(){ //weryfikuje czy użytkownik jest zalogowany
           if(this.$store.state.user == null){
               this.$router.push("/home")
           }
       },
       methods:{
         sendTransfer(){
-          this.axios.post('addTransfer',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
-            this.success = true
+          let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(this.form.transferDate)
+          let month = new Intl.DateTimeFormat('en', {month: 'numeric'}).format(this.form.transferDate)
+          let day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(this.form.transferDate)
+          this.form.transferDate = `${year}-${month}-${day}` //formatuje date
+          this.axios.post('addTransfer',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{ //wysyła requesta do api
+            this.success = true //jeśli api zwróci sukces wyświetla wiadomość success
             this.error = false
-          }).catch(err => {
+          }).catch(err => { //jesli api zwróci błąd wyświetla wiadomość niepowodzenia
+            console.log(this.form.transferDate)
             this.error = true; 
             this.success = false;})
         }

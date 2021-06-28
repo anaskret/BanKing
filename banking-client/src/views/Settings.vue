@@ -87,13 +87,13 @@
               }
           }
       },
-      created(){
+      created(){ //weryfikuje czy użytkownik jest zalogowany
           if(this.$store.state.user == null){
               this.$router.push("/home")
           }
       },
       methods:{
-        passwordChange(){
+        passwordChange(){ //wysyła formularz zmiany hasła do api
           this.axios.put('updatePassword',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
             this.success = true;
             this.error = false

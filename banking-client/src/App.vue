@@ -34,7 +34,7 @@ export default{
     user(){
       return this.$store.state.user
     },
-    isLogged(){
+    isLogged(){ //sprawdza czy user jest zalogowany
       return this.user !== null
     }
   }

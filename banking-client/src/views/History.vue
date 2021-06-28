@@ -31,12 +31,12 @@ export default {
         ]
     }
   },
-  created(){
+  created(){ //weryfikuje czy użytkownik jest zalogowany
       if(this.$store.state.user == null){
           this.$router.push("/home")
       }
   },
-  mounted(){
+  mounted(){ //pobiera transfery z api
     this.axios.get('showTransfers', { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
       res.data.transfers.forEach(element => {
         console.log(element)

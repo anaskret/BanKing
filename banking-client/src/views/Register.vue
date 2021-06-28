@@ -165,7 +165,7 @@
       methods:{
         register(){
 
-          this.axios.post('register',this.form).then(res=>{
+          this.axios.post('register',this.form).then(res=>{ //wysyła formularz rejestracji do api
             this.$router.push({name:'Home'})
           }).catch(err=>{
              console.log(err.response.data)

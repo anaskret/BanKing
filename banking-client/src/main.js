@@ -13,12 +13,12 @@ import './assets/css/adminlte.min.css';
 // Make BootstrapVue available throughout your project
 
 export const HTTP = axios.create({
-  baseURL: `http://127.0.0.1:8000/api/`,
+  baseURL: `http://127.0.0.1:8000/api/`, //ustawia domyślne url
   headers: {
    
   }
 })
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue); 
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
 Vue.use(VueAxios, HTTP)

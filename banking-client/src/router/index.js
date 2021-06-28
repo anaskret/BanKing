@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import store from '../store/index';
-import Home from "../views/Home.vue";
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Dashboard from '../views/Dashboard.vue';
@@ -10,12 +9,7 @@ import Transfer from '../views/Transfer.vue';
 import History from '../views/History.vue';
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home,
-  },
+const routes = [ //ustawienie ścieżek
   {
     path: "/login",
     name: "Login",

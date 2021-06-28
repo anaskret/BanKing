@@ -62,12 +62,12 @@ export default {
       balance: '5,100'
     }
   },
-  created(){
+  created(){ //weryfikuje czy użytkownik jest zalogowany
       if(this.$store.state.user == null){
           this.$router.push("/home")
       }
   },
-  mounted() {
+  mounted() { //pobiera dane z api
     this.axios.get('showAccount', { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
       this.accountName = res.data.account[0].accountType
       this.accountNumber = res.data.account[0].accountNumber

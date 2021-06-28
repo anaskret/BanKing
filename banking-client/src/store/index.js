@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { getField, updateField } from 'vuex-map-fields';
+import axios from 'axios'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
+  state: { //username i token
     user:null,
     token:''
   },
@@ -19,9 +20,7 @@ export default new Vuex.Store({
     },
   },
   actions: {
-
     login({state,commit},data){
-      console.log(this)
        localStorage.setItem("bankingAccount",JSON.stringify(data));
 
       commit('SET_USER',data)
@@ -32,14 +31,10 @@ export default new Vuex.Store({
         commit('SET_USER',JSON.parse(t))
       }
     },
-    register(){
-      
-    },
     logOut({commit}){
+      axios.post('http://127.0.0.1:8000/api/logout',{ headers: { Authorization: `Bearer ${this.state.token}`}})
       localStorage.removeItem("bankingAccount");
       commit('SET_USER',null)
     }
-  },
-  modules: {
   }
 })
