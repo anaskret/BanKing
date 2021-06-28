@@ -90,14 +90,17 @@
               >
             </div>
             
-            <a>Date Of Birth</a>
-            <div class="input-group mb-3">
-              <input
-                required
-                v-model="form.dateOfBirth"
-                type="date"
-                class="form-control"
-              >
+            <div class="input-group mb-3 row">
+                <label class="col-sm">Date Of Birth</label>
+                <Datepicker
+                  required
+                  v-model="form.dateOfBirth"
+                  :full-month-name="false"
+                  type="date"
+                  class="col-sm"
+                  format="yyyy-MM-dd"
+                  :disabledDates="disabledDates"
+                />
             </div>
             
             <div class="input-group mb-3">
@@ -119,6 +122,12 @@
                 placeholder="Password"
               >
             </div>
+
+            <p
+              class="text-danger"
+            >
+              {{errorMessage}}
+            </p>
 
             <button
               type="submit"
@@ -144,36 +153,80 @@
   </div>
 </template>
     
-  <script>
-    export default {
-      name:'Register',
-      data(){
-          return{
-              form:{
-                  email:'',
-                  name:'',
-                  surname:'',
-                  personalIdNumber:'',
-                  phoneNumber:'',
-                  address:'',
-                  dateOfBirth:'',
-                  login:'',
-                  password:'',
-              }
-          }
-      },
-      methods:{
-        register(){
+<script>
+import Datepicker from 'vuejs-datepicker';
 
-          this.axios.post('register',this.form).then(res=>{ //wysyła formularz rejestracji do api
-            this.$router.push({name:'Home'})
-          }).catch(err=>{
-             console.log(err.response.data)
-          })  
+export default {
+  name:'Register',
+  components: {
+      Datepicker
+    },
+  data(){
+      return{
+        errorMessage: '',
+        form:{
+            email:'',
+            name:'',
+            surname:'',
+            personalIdNumber:'',
+            phoneNumber:'',
+            address:'',
+            dateOfBirth:'',
+            login:'',
+            password:'',
+        },
+        disabledDates: { //wyłącza daty w datepickerze z użytku
+          from: new Date(2004, 11, 32)
         }
       }
+  },
+  methods:{
+    register(){
+      this.errorMessage = ''
+      let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(this.form.dateOfBirth)
+      let month = new Intl.DateTimeFormat('en', {month: 'numeric'}).format(this.form.dateOfBirth)
+      let day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(this.form.dateOfBirth)
+      this.form.dateOfBirth = `${year}-${month}-${day}` 
+
+      this.axios.post('register',this.form).then(res=>{ //wysyła formularz rejestracji do api
+        this.$router.push({name:'Login'})
+      }).catch(err=>{
+        if(err.response.data.name != null){
+          this.errorMessage = err.response.data.name[0]
+        }
+        else if(err.response.data.surname != null){
+          this.errorMessage = err.response.data.surname[0]
+        }
+        else if(err.response.data.email != null){
+          this.errorMessage = err.response.data.email[0]
+        }
+        else if(err.response.data.personalIdNumber != null){
+          this.errorMessage = err.response.data.personalIdNumber[0]
+        }
+        else if(err.response.data.phoneNumber != null){
+          this.errorMessage = err.response.data.phoneNumber[0]
+        }
+        else if(err.response.data.address != null){
+          this.errorMessage = err.response.data.address[0]
+        }
+        else if(err.response.data.dateOfBirth != null){
+          this.errorMessage = err.response.data.dateOfBirth[0]
+        }
+        else if(err.response.data.login != null){
+          this.errorMessage = err.response.data.login[0]
+        }
+        else if(err.response.data.message != null){
+          this.errorMessage = err.response.data.message 
+        }
+        else{
+          this.errorMessage = 'Transfer failed'
+        }
+        console.log(err.response.data)
+      })  
     }
-  </script>
+  }
+}
+</script>
     
     <style>
     

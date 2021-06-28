@@ -80,7 +80,7 @@
               v-if="error"
               class="text-danger"
             >
-              Transfer failed
+              {{errorMessage}}
             </p>
             <p
               v-if="success"
@@ -134,15 +134,42 @@ import Datepicker from 'vuejs-datepicker';
       },
       methods:{
         sendTransfer(){
+          this.errorMessage = ''
+          
           let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(this.form.transferDate)
           let month = new Intl.DateTimeFormat('en', {month: 'numeric'}).format(this.form.transferDate)
           let day = new Intl.DateTimeFormat('en', {day: 'numeric'}).format(this.form.transferDate)
           this.form.transferDate = `${year}-${month}-${day}` //formatuje date
+
           this.axios.post('addTransfer',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{ //wysyła requesta do api
             this.success = true //jeśli api zwróci sukces wyświetla wiadomość success
             this.error = false
           }).catch(err => { //jesli api zwróci błąd wyświetla wiadomość niepowodzenia
-            console.log(this.form.transferDate)
+            if(err.response.data.tittle != null){ //obsługa błędu
+              this.errorMessage = err.response.data.tittle[0]
+            }
+            else if(err.response.data.amount != null){
+              this.errorMessage = err.response.data.amount[0]
+            }
+            else if(err.response.data.yourAccountNumber != null){
+              this.errorMessage = err.response.data.yourAccountNumber[0]
+            }
+            else if(err.response.data.recipientName != null){
+              this.errorMessage = err.response.data.recipientName[0]
+            }
+            else if(err.response.data.transferDate != null){
+              this.errorMessage = err.response.data.transferDate [0]
+            }
+            else if(err.response.data.address != null){
+              this.errorMessage = err.response.data.address[0]
+            }
+            else if(err.response.data.message != null){
+              this.errorMessage = err.response.data.message 
+            }
+            else{
+              this.errorMessage = 'Transfer failed'
+            }
+            this.form.transferDate = ''
             this.error = true; 
             this.success = false;})
         }
