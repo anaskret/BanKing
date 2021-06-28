@@ -96,9 +96,11 @@
       methods:{
         passwordChange(){ //wysyła formularz zmiany hasła do api
           this.errorMessagge = ''
+
           this.axios.put('updatePassword',this.form, { headers: { Authorization: `Bearer ${this.$store.state.token}`}}).then(res=>{
             this.success = true;
             this.error = false
+
           }).catch(err =>{
             console.log(err.response.data) //obsługa wiadomości błędu
             if(err.response.data.message != null){
@@ -108,10 +110,10 @@
               this.errorMessage = err.response.data.old_password[0]
             }
             else if(err.response.data.new_password != null){
-              this.errorMessage = err.response.data.old_password[0]
+              this.errorMessage = err.response.data.new_password[0]
             }
             else if(err.response.data.confirm_password != null){
-              this.errorMessage = err.response.data.old_password[0]
+              this.errorMessage = err.response.data.confirm_password[0]
             }
             else{
               this.errorMessage = 'Update failed'
