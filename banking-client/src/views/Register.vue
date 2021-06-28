@@ -221,6 +221,7 @@ export default {
         else{
           this.errorMessage = 'Transfer failed'
         }
+        this.form.dateOfBirth = ''
         console.log(err.response.data)
       })  
     }
