@@ -17,7 +17,7 @@ class UserController extends Controller
     {
       $user = new User;
        $account= new Account;
-    
+// WALIDACJA UŻYTKOWNIKA
     $data  = Validator::make($req->all(),
     
         [
@@ -40,11 +40,12 @@ class UserController extends Controller
         ]
 
             );
+// WYŚWIETLANIE BŁĘDÓW
         if($data->fails())
         {
             return response()->json($data->errors(),400);
         }
-          
+ // TWORZENIE NOWEGO UŻYTKOWNIKA     
               $req = User::create([
                 'name' => $req['name'],
                 'surname' => $req['surname'],
@@ -77,6 +78,7 @@ class UserController extends Controller
 
         function login(Request $req)
         {
+            // WALIDACJA LOGOWANIA
             $data  = Validator::make($req->all(),    
         [
             'login' => 'required',
@@ -89,7 +91,7 @@ class UserController extends Controller
         }
 
             $user = User::where('login', $req->login)->first();
-
+// SPRAWDZANIE CZY ISTNIEJE TAKI UŻYTKOWNIK
             if(!$user || !Hash::check($req->password,$user->password))
             {
                 return response(['wiadomość'=>'Niepoprawny login lub hasło'],404);
@@ -119,11 +121,13 @@ class UserController extends Controller
         }
         public function logout()
         {
+//          USUWANIE TOKENU
             auth()->user()->tokens()->delete();
             return response(['wiadomość'=> 'Wylogowanie powiodło się'],200);
         }
-        public function showUsers(){
-            
+ //         WYŚWIETLANIE WSZYSTKICH UŻYTKOWNIKÓW       
+        public function showUsers()
+        {
             if(User::get())
             {
                 return response()->json(User::get(),200);

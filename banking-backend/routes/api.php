@@ -27,7 +27,7 @@ Route::post('login',[UserController::class,'login']);
 Route::get('showUsers',[UserController::class,'showUsers']);
 
 
-
+// WYKORZYSTANIE AUTORYZACJI
 Route::middleware('auth:sanctum')->group( function () {
 
     Route::post('logout',[UserController::class,'logout']);

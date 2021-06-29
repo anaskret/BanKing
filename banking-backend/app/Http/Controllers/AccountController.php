@@ -13,6 +13,7 @@ class AccountController extends Controller
 {
     public function showAccount()
     {
+        // WYŚWIETLANIE AKTUALNEGO KONTA
             $id = Auth::id();
             $account = Account::where('userId','like','%'.$id.'%')->get(); 
                                     
@@ -28,13 +29,14 @@ class AccountController extends Controller
     }
     public function updatePassword(Request $req)
     {
+//         WALIDACJA
         $data  = Validator::make($req->all(),
         [
             'old_password'=>'required| min:8 | max:100 | string',
             'new_password'=>'required| min:8 | max:100 | string',
             'confirm_password'=>'required| same:new_password',
         ]);
-
+//      WYSWITLANIE BŁĘDÓW
         if($data->fails()){
             return response()->json($data->errors(),400);
         }
