@@ -47,7 +47,7 @@ class TransferController extends Controller
             $nameBank = Bank::where('code','like','%'.$code.'%')->first();
 
             if(empty($nameBank))
-             return response()->json(['message'=>'Niepoprawny numer banku'],404);
+             return response()->json(['message'=>'Incorrect account number'],404);
 
 
              
@@ -99,7 +99,7 @@ class TransferController extends Controller
                 }
               else if($sum<0)
               {
-                return response()->json(['message'=>'Brak środków na koncie'],400);
+                return response()->json(['message'=>'Lack of account funds'],400);
               }
               else
               {
@@ -154,7 +154,7 @@ class TransferController extends Controller
             }
             else
             {
-                //nie działa
+              
                 return response()->json(['message'=>'No Transfer Found'],404);
             }
         

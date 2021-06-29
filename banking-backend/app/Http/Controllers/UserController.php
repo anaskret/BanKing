@@ -30,16 +30,7 @@ class UserController extends Controller
             'dateOfBirth' => 'required',
             'login' => 'required | unique:users,login',
             'password' => 'required| min:8 | max:100 | string'
-        ],
-        [
-            'name.required' => 'Pole Imię jest wymagane',
-            'name.min' => 'Pole Imię musi mieć minimum 2 znaki',
-            'name.max' => 'Pole Imię może mieć maximum 2 znaki',
-            'email.required' => 'Pole email jest wymagane',
-            'email.email' => 'Pole email musi być adresem poczty elektronicznej'
-        ]
-
-            );
+        ]);
 // WYŚWIETLANIE BŁĘDÓW
         if($data->fails())
         {
@@ -94,7 +85,7 @@ class UserController extends Controller
 // SPRAWDZANIE CZY ISTNIEJE TAKI UŻYTKOWNIK
             if(!$user || !Hash::check($req->password,$user->password))
             {
-                return response(['wiadomość'=>'Niepoprawny login lub hasło'],404);
+                return response(['message'=>'Incorrect login or password'],404);
             }
             else
             {
@@ -123,7 +114,7 @@ class UserController extends Controller
         {
 //          USUWANIE TOKENU
             auth()->user()->tokens()->delete();
-            return response(['wiadomość'=> 'Wylogowanie powiodło się'],200);
+            return response(['message'=> 'Logout was successful'],200);
         }
  //         WYŚWIETLANIE WSZYSTKICH UŻYTKOWNIKÓW       
         public function showUsers()
@@ -134,8 +125,8 @@ class UserController extends Controller
             }
             else
             {
-                //nie działa
-                return response()->json(['wiadomość'=>'Nie znaleziono użytkowników'],404);
+                
+                return response()->json(['message'=>'No users found'],404);
             }
         }
   
