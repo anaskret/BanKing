@@ -49,19 +49,12 @@ class TransferController extends Controller
             if(empty($nameBank))
              return response()->json(['message'=>'Niepoprawny numer banku'],404);
 
-//          JESLI KONTO ZNAJDUJE SIE W NASZYM BANKU TO BILANS KONTA SIE ZWIEKSZA
 
-             $findAccount =  Account::where('accountNumber','like','%'.$req['yourAccountNumber'].'%')->first(); 
-             if(!empty($findAccount))
-             {
-                $findAccount->balance = $findAccount->balance + $req['amount'];
-                $findAccount->update();
-             }
              
 
-//          DODAWANIE DO TABELI NOWEGO TRANSFERU
+
            
-           
+//          SPRAWDZANIE CZY PRZELEW SIE DZISIAJ WYKONA
             $today = new DateTime(date("Y-m-d"));
             $date = new DateTime($req['transferDate']);
 
@@ -76,16 +69,41 @@ class TransferController extends Controller
             
            
 
-//          BILANS KONTA SIE ZWIEKSZA
+//          BILANS KONTA SIE ZMNIEJSZA
 
               $sum = $account->balance;
               $sum=$sum-$req['amount'];
-              if($sum<0)
+            
+              if($account->accountNumber === $req['yourAccountNumber'])
+                {
+//          DODAWANIE DO TABELI NOWEGO TRANSFERU
+                    $req = Transfer::create([
+                        'myAccountNumber' => $account->accountNumber,
+                        'yourAccountNumber' => $req['yourAccountNumber'],
+                        'nameOfBank'=>$nameBank->name,
+                        'myName' => $user->name,
+                        'recipientName' => $req['recipientName'],
+                        'tittle' => $req['tittle'],
+                        'address' => $req['address'],
+                        'amount' => $req['amount'],              
+                        'accountId' => $account->id, 
+                        'transferDate' =>  $req['transferDate'],  
+                        'isComplete' => $complete,                      
+                      ]);
+                      $account->balance = $account->balance + $req['amount'];
+                      $account->update();
+                    $response = [
+                        'transfer'=>$account,  
+                    ];
+                     return response()->json($response,200);
+                }
+              else if($sum<0)
               {
                 return response()->json(['message'=>'Brak środków na koncie'],400);
               }
               else
               {
+    //          DODAWANIE DO TABELI NOWEGO TRANSFERU
                 $req = Transfer::create([
                     'myAccountNumber' => $account->accountNumber,
                     'yourAccountNumber' => $req['yourAccountNumber'],
@@ -99,6 +117,15 @@ class TransferController extends Controller
                     'transferDate' =>  $req['transferDate'],  
                     'isComplete' => $complete,                      
                   ]);
+//          JESLI KONTO ZNAJDUJE SIE W NASZYM BANKU TO BILANS KONTA SIE ZWIEKSZA
+
+             $findAccount =  Account::where('accountNumber','like','%'.$req['yourAccountNumber'].'%')->first(); 
+             if(!empty($findAccount))
+             {
+                $findAccount->balance = $findAccount->balance + $req['amount'];
+                $findAccount->update();
+             }
+//           AKTUALIZACJA STANU KONTA
                 $account->balance=$sum;
                 $account->update();
                 $response = [
