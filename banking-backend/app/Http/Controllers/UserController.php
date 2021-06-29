@@ -120,7 +120,7 @@ class UserController extends Controller
         public function logout()
         {
             auth()->user()->tokens()->delete();
-            return response(['wiadomość'=> 'Wylogowanie powiodło się']);
+            return response(['wiadomość'=> 'Wylogowanie powiodło się'],200);
         }
         public function showUsers(){
             
