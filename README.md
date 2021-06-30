@@ -1,2 +1,2 @@
 # BanKing
-Aplikacja bankowa
+Simple Banking app, made using Vue and Laravel 
